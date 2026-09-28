@@ -60,19 +60,28 @@ Because MCP is a standardized protocol, you can use this server with any compati
 ### Using with Hermes
 You can integrate this server into a Hermes agent. By running `hermes config edit`, you can set the path and the tool name for the agent in your configuration:
 
+**Option 1: Using `uv` directly (Recommended)**
+```yaml
+mcp_servers:
+  gitea-local:
+    command: uv
+    args:
+      - --directory
+      - /absolute/path/to/mcp-servers
+      - run
+      - gitea_mcp.py
+    env:
+      GITEA_URL: http://<your-instance>:3000/
+      GITEA_TOKEN: <your-PAT>
+```
+
+**Option 2: Using the explicit virtual environment Python**
 ```yaml
 mcp_servers:
   gitea-local:
     command: /absolute/path/to/mcp-servers/.venv/bin/python
     args:
       - /absolute/path/to/mcp-servers/gitea_mcp.py
-    # Alternatively, you can use uv directly:
-    # command: uv
-    # args:
-    #   - --directory
-    #   - /absolute/path/to/mcp-servers
-    #   - run
-    #   - gitea_mcp.py
     env:
       GITEA_URL: http://<your-instance>:3000/
       GITEA_TOKEN: <your-PAT>
