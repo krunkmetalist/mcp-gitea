@@ -14,17 +14,17 @@ This server provides tools that allow LLMs (via clients like Claude Desktop or a
 
 ### Prerequisites
 * Python 3.10+
-* `uv` or `pip` for dependency management.
+* `uv` for dependency management.
 * A running Gitea instance.
 * A Gitea Personal Access Token (Settings -> Applications -> Generate Token). See the [Gitea documentation](https://docs.gitea.com/development/api-usage#authenticating-as-a-user) for more details.
 
 ### Installation
-Clone the repository and install the required packages:
+Clone the repository and run `uv sync` to install dependencies and set up the virtual environment:
 
 ```bash
 git clone https://github.com/your-username/mcp-servers.git
 cd mcp-servers
-pip install -r requirements.txt
+uv sync
 ```
 *(Note: Consider extracting `gitea_mcp.py` to its own repository if you plan to build more MCP servers).*
 
@@ -43,14 +43,14 @@ GITEA_TOKEN="your_personal_access_token"
 ```
 
 ### Running the Server
-You can run the server directly via Python. 
+You can run the server directly via Python using `uv run`:
 
 If you choose to set the variables directly in your terminal using `export`, note that this is only viable for the life of that specific shell session:
 
 ```bash
 export GITEA_URL="http://your-gitea-instance:3000"
 export GITEA_TOKEN="your_personal_access_token"
-python gitea_mcp.py
+uv run gitea_mcp.py
 ```
 
 ## Client Configuration
@@ -66,6 +66,13 @@ mcp_servers:
     command: /absolute/path/to/mcp-servers/.venv/bin/python
     args:
       - /absolute/path/to/mcp-servers/gitea_mcp.py
+    # Alternatively, you can use uv directly:
+    # command: uv
+    # args:
+    #   - --directory
+    #   - /absolute/path/to/mcp-servers
+    #   - run
+    #   - gitea_mcp.py
     env:
       GITEA_URL: http://<your-instance>:3000/
       GITEA_TOKEN: <your-PAT>
